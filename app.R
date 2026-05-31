@@ -1,5 +1,5 @@
 rm(list=ls())
-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+#setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 
 
 # install.packages(c("shiny", "ggplot2", "dplyr", "shinyWidgets",

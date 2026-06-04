@@ -18,6 +18,7 @@ library(tidyr)
 library(tibble)
 
 
+
 #TRANSLATOR PENNSYLVANIA
 
 CACHE_FILE <- "translation_cache.rds"
@@ -68,6 +69,9 @@ league_standings <- read_csv("standings.csv")
 SeasonBattingStats <- read_csv("batting_individual.csv")
 SeasonPitchingStats <- read_csv("pitching_individual.csv")
 playerinfo <- read_csv("rosters.csv")
+
+SeasonPitchingStats <- SeasonPitchingStats %>%
+  mutate(across(c(ip, era), ~ suppressWarnings(as.numeric(gsub("[^0-9.]", "", .x)))))
 
 # Collapse duplicate stat rows (some players appear multiple times in source data)
 SeasonBattingStats <- SeasonBattingStats %>%
@@ -130,6 +134,8 @@ SeasonPitchingStats <- SeasonPitchingStats %>%
     win_pct = ifelse((wins + losses) > 0, round(wins / (wins + losses), 3), 0),
     era     = ifelse(ip > 0, round((er * 9) / ip, 2), 0)
   )
+
+
 
 league_standings <- sqldf("select league, team_en, wins, losses, ties, case when games_behind = '--' then 0 else games_behind end games_behind from league_standings")
 
